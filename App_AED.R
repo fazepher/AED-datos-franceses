@@ -14,11 +14,11 @@
 #### Preámbulo ####
 
 library(shiny)
-library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(stringr)
 library(magrittr)
-library(grid)
-library(gridExtra)
-library(lubridate)
 library(shinyWidgets)
 library(flexdashboard)
 library(shinycssloaders)
@@ -26,18 +26,6 @@ library(shinycssloaders)
 #### Módulos adicionales ####
 
 source("00_datos_generales.R")
-source("01_operativo_nacional.R")
-# source("02_operativo_chiapas.R")
-# source("03_operativo_cdmx.R")
-# source("04_operativo_guanajuato.R")
-# source("05_operativo_jalisco.R")
-# source("06_operativo_morelos.R")
-# source("07_operativo_puebla.R")
-# source("08_operativo_tabasco.R")
-# source("09_operativo_veracruz.R")
-#source("10_operativo_yucatan2.R")
-#source("11_operativo_sinaloa.R")
-
 
 #### Interfaz (ui) ####
 
