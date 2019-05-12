@@ -1,0 +1,21 @@
+Variable,Cats,Etiqueta
+Sexo,Muj,Mujeres
+Sexo,Hom,Hombres
+Edad,Ed1,0 a 17 años
+Edad,Ed2,18 a 24 años
+Edad,Ed3,25 a 39 años
+Edad,Ed4,40 a 54 años
+Edad,Ed5,55 a 64 años
+Edad,Ed6,65+ años
+Nacionalidad,Ext,Extranjeros
+Nacionalidad,Fra,Franceses
+Cat. Socioprof.,CSP1,Agricultores
+Cat. Socioprof.,CSP2,"Artesanos, comerciantes y empresarios"
+Cat. Socioprof.,CSP3,Cuadros y prof. intel. sup.
+Cat. Socioprof.,CSP4,Profesiones intermediarias
+Cat. Socioprof.,CSP5,Empleados
+Cat. Socioprof.,CSP6,Obreros
+Cat. Socioprof.,CSP7,Retirados
+Cat. Socioprof.,CSP8,Otras personas sin actividad
+Cond. Migratoria,Inm,Inmigrantes
+Cond. Migratoria,Loc,Locales

@@ -1,0 +1,23 @@
+"name","code","row","col"
+"Haute-Normandie","23",1,2
+"Nord-Pas-de-Calais","31",1,3
+"Picardie","22",1,4
+"Basse-Normandie","25",2,2
+"Île-de-France","11",2,3
+"Champagne-Ardenne","21",2,4
+"Lorraine","41",2,5
+"Alsace","42",2,6
+"Bretagne","53",2,1
+"Pays de la Loire","52",3,2
+"Centre-Val de Loire","24",3,3
+"Bourgogne","26",3,4
+"Franche-Comté","43",3,5
+"Poitou-Charentes","54",4,2
+"Limousin","74",4,3
+"Auvergne","83",4,4
+"Rhône-Alpes","82",4,5
+"Aquitaine","72",5,2
+"Midi-Pyrénées","73",5,3
+"Languedoc-Roussillon","91",5,4
+"Provence-Alpes-Côte d'Azur","93",5,5
+"Corse","94",6,6
