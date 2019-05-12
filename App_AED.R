@@ -22,6 +22,7 @@ library(magrittr)
 library(shinyWidgets)
 library(flexdashboard)
 library(shinycssloaders)
+library(geofacet)
 
 #### Módulos adicionales ####
 

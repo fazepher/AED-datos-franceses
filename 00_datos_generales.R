@@ -59,7 +59,7 @@ geofacet_disp_votos_cat_reg <- function(datos_graf,título,color){
   
   graf <- ggplot(datos_graf, aes(x=Pct,y=PCT_VOTOS_BR,alpha = Alpha)) + 
     geom_point(color=color, size = rel(0.2)) + 
-    geofacet::facet_geo(~COD_REG, grid = fr_anc_reg_metr, label = "name", scales = "free") + 
+    facet_geo(~COD_REG, grid = fr_anc_reg_metr, label = "name", scales = "free") + 
     scale_y_continuous(trans = "logit") + 
     scale_alpha_continuous(range = c(0.4,1)) + 
     theme_minimal() + 
