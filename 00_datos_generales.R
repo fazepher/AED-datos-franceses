@@ -33,7 +33,7 @@ geofacet_disp_votos_cat_reg <- function(datos_graf,titulo,color){
     theme_minimal() + 
     labs(title = titulo, 
          caption = "Geofacet de @fazepher con datos oficiales franceses",
-         x = "% poblaci?n comunal",
+         x = "% población comunal",
          y = "% votos brutos en escala logit") + 
     theme(legend.position = "none", 
           plot.title = element_text(margin = margin(5,0,8,0), size = 15, hjust = 0.5),
