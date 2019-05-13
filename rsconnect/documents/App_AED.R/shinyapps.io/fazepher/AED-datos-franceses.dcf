@@ -1,0 +1,13 @@
+name: AED-datos-franceses
+title: AED-datos-franceses
+username:
+account: fazepher
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 925580
+bundleId: 2079205
+url: https://fazepher.shinyapps.io/AED-datos-franceses/
+when: 1557704797.2336
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .gitattributes|README.md|www/logo_insee.png|www/logo_interieur.png
