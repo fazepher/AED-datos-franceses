@@ -26,19 +26,20 @@ server <- function(input,output){
   aaaa <- reactive({str_extract_all(input$elec,"[0-9]{4}") %>% unlist
   })
   
-  datos_graf_solo_censales <- reactive({
+  datos_graf_solo_insee <- reactive({
     datos_censales %>% 
       filter(AÑO == aaaa()) %>% 
       inner_join(COMUNAS_2007) %>% 
       filter(COD_REG %in% fr_anc_reg_metr$code) %>% 
       filter(Pob >= input$pob_min) %>% 
+      left_join(otros_datos_comunales, by = c("CODGEO","AÑO")) %>% 
       select(CODGEO,COD_DPTO:NOM_REG,req(input$cat)) %>% 
       dplyr::rename(Pct = UQ(req(input$cat))) %>% 
       filter(!is.na(Pct)) 
   })
   
   datos_graf <- reactive({
-    datos_graf_solo_censales() %>% 
+    datos_graf_solo_insee() %>% 
       inner_join(datos_electorales()) %>% 
       group_by(COD_REG) %>% 
       mutate(Alpha = 1/n())
@@ -49,7 +50,20 @@ server <- function(input,output){
       extract2("COLOR") %>% 
       geofacet_disp_votos_cat_reg(datos_graf(), 
                                   paste(etiqueta_cat(),"vs",input$familia,"en las",input$elec,sep=" "),
+                                  if_else(input$var %in% c("Escolaridad","Empleo"),
+                                          "% población correspondiente",
+                                          "% población comunal"),
                                   color = .)
+  })
+ 
+  output$graf_corr <- renderPlot({
+    filter(paleta_tesis_fn, FAMILIA == input$familia) %>% 
+      extract2("COLOR") %>% 
+      geofacet_corr_votos_cat_dpto(datos_graf(), 
+                                   paste("Correlación", etiqueta_cat(),"y",input$familia,"en las",input$elec,sep=" "),
+                                   "Código INSEE de Departamento",
+                                   "Coeficiente de correlación",
+                                   color = .)
   })
   
   output$graf_smooth <- renderPlot({
@@ -57,7 +71,12 @@ server <- function(input,output){
       extract2("COLOR") %>% 
       geofacet_smooth_votos_cat_dpto(datos_graf(), 
                                      paste(etiqueta_cat(),"vs",input$familia,"en las",input$elec,sep=" "),
+                                     if_else(input$var %in% c("Escolaridad","Empleo"),
+                                             "% población correspondiente",
+                                             "% población comunal"),
                                      color = .)
   })
+  
+  
   
 }

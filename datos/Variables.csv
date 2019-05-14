@@ -19,3 +19,14 @@ Cat. Socioprof.,CSP7,Retirados
 Cat. Socioprof.,CSP8,Otras personas sin actividad
 Cond. Migratoria,Inm,Inmigrantes
 Cond. Migratoria,Loc,Locales
+Escolaridad,Esc,Todavía estudiando
+Escolaridad,Dip1,Personas sin escolaridad
+Escolaridad,Dip2,Primaria o secundaria
+Escolaridad,Dip3,Preparatoria o equivalente
+Escolaridad,Dip4,Universidad o más
+Ocupación,Ocu1,Empleados 15-24 años
+Ocupación,Des1,Desempleados 15-24 años
+Ocupación,Ocu2,Empleados 25-54 años
+Ocupación,Des2,Desempleados 25-54 años
+Ocupación,Ocu3,Empleados 55-64 años
+Ocupación,Des3,Desempleados 55-64 años

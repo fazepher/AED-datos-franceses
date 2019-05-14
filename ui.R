@@ -65,6 +65,11 @@ ui <- fluidPage(
                           height = "800px") %>% withSpinner(color = "#6C7B8B")
              ),
              tabPanel(
+               title = "Correlaciones lineales",
+               plotOutput("graf_corr",
+                          height = "800px") %>% withSpinner(color = "#6C7B8B")
+             ),
+             tabPanel(
                title = "Tendencias ingenuas",
                plotOutput("graf_smooth",
                           height = "800px") %>% withSpinner(color = "#6C7B8B")
