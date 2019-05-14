@@ -23,7 +23,12 @@ server <- function(input,output){
   datos_electorales <- reactive({
     filter(datos_electorales_completos, ELECCION == input$elec, FAMILIA == input$familia)
   })
-  aaaa <- reactive({str_extract_all(input$elec,"[0-9]{4}") %>% unlist
+  aaaa <- reactive(
+    {str_extract_all(input$elec,"[0-9]{4}") %>% unlist
+  })
+  color <- reactive({
+    filter(paleta_tesis_fn, FAMILIA == input$familia) %>% 
+      extract2("COLOR")
   })
   
   datos_graf_solo_insee <- reactive({
@@ -42,41 +47,65 @@ server <- function(input,output){
     datos_graf_solo_insee() %>% 
       inner_join(datos_electorales()) %>% 
       group_by(COD_REG) %>% 
-      mutate(Alpha = 1/n())
+      mutate(Alpha = 1/n()) %>% 
+      ungroup
+  })
+  
+  output$distr_hist_votos <- renderPlot({
+    datos_electorales() %>% 
+      inner_join(COMUNAS_2007) %>% 
+      geofacet_distr_hist_votos(paste(input$familia,"en las",input$elec,sep=" "),
+                                "% votos comunal por región y para la metrópoli entera",
+                                color = color())
+  })
+  
+  output$distr_viol_votos <- renderPlot({
+    datos_electorales() %>% 
+      inner_join(COMUNAS_2007) %>% 
+      geofacet_violines_votos_dpto(paste(input$familia,"en las",input$elec,sep=" "),
+                                   "Metrópili entera",
+                                   color = color())
+  })
+  
+  output$distr_hist_cat <- renderPlot({
+    geofacet_distr_hist_cat(datos_graf(),
+                            paste(etiqueta_cat(),"en",aaaa(),sep=" "),
+                            "% población comunal por región y para la metrópoli entera",
+                            color = color())
+  })
+  
+  output$distr_viol_cat <- renderPlot({
+    geofacet_violines_cat_dpto(datos_graf(),
+                               paste(etiqueta_cat(),"en",aaaa(),sep=" "),
+                               "Metrópili entera",
+                               color = color())
   })
   
   output$graf_disper <- renderPlot({
-    filter(paleta_tesis_fn, FAMILIA == input$familia) %>% 
-      extract2("COLOR") %>% 
-      geofacet_disp_votos_cat_reg(datos_graf(), 
+     geofacet_disp_votos_cat_reg(datos_graf(), 
                                   paste(etiqueta_cat(),"vs",input$familia,"en las",input$elec,sep=" "),
                                   if_else(input$var %in% c("Escolaridad","Empleo"),
                                           "% población correspondiente",
                                           "% población comunal"),
-                                  color = .)
+                                  color = color())
   })
  
   output$graf_corr <- renderPlot({
-    filter(paleta_tesis_fn, FAMILIA == input$familia) %>% 
-      extract2("COLOR") %>% 
-      geofacet_corr_votos_cat_dpto(datos_graf(), 
+    geofacet_corr_votos_cat_dpto(datos_graf(), 
                                    paste("Correlación", etiqueta_cat(),"y",input$familia,"en las",input$elec,sep=" "),
                                    "Código INSEE de Departamento",
                                    "Coeficiente de correlación",
-                                   color = .)
+                                   color = color())
   })
   
   output$graf_smooth <- renderPlot({
-    filter(paleta_tesis_fn, FAMILIA == input$familia) %>% 
-      extract2("COLOR") %>% 
-      geofacet_smooth_votos_cat_dpto(datos_graf(), 
+    geofacet_smooth_votos_cat_dpto(datos_graf(), 
                                      paste(etiqueta_cat(),"vs",input$familia,"en las",input$elec,sep=" "),
                                      if_else(input$var %in% c("Escolaridad","Empleo"),
                                              "% población correspondiente",
                                              "% población comunal"),
-                                     color = .)
+                                     color = color())
   })
-  
   
   
 }

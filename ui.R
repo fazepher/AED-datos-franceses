@@ -24,6 +24,7 @@ library(flexdashboard)
 library(shinycssloaders)
 library(geofacet)
 library(shinythemes)
+library(scales)
 
 #### Módulos adicionales ####
 
@@ -47,6 +48,7 @@ ui <- fluidPage(
   # Opciones de gráficos
   fluidRow(
     column(2,
+           h3("Seleccionar filtros"),
            selectInput("elec", "Elección", c("Presidenciales 2007","Legislativas 2007",
                                              "Presidenciales 2012","Legislativas 2012")),
            selectInput("familia", "Familia política", paleta_tesis_fn$FAMILIA),
@@ -59,20 +61,42 @@ ui <- fluidPage(
            navbarPage(
              title = "Mostrar",
              # Paneles por elección
-             tabPanel(
-               title = "Diagramas de dispersión",
-               plotOutput("graf_disper",
-                          height = "800px") %>% withSpinner(color = "#6C7B8B")
+             navbarMenu(
+               title = "Asociaciones",
+               tabPanel(
+                 title = "Diagramas de dispersión",
+                 plotOutput("graf_disper",
+                            height = "800px") %>% withSpinner(color = "#6C7B8B")
+               ),
+               tabPanel(
+                 title = "Correlaciones lineales",
+                 plotOutput("graf_corr",
+                            height = "800px") %>% withSpinner(color = "#6C7B8B")
+               ),
+               tabPanel(
+                 title = "Tendencias ingenuas",
+                 plotOutput("graf_smooth",
+                            height = "800px") %>% withSpinner(color = "#6C7B8B")
+               )
              ),
-             tabPanel(
-               title = "Correlaciones lineales",
-               plotOutput("graf_corr",
-                          height = "800px") %>% withSpinner(color = "#6C7B8B")
-             ),
-             tabPanel(
-               title = "Tendencias ingenuas",
-               plotOutput("graf_smooth",
-                          height = "800px") %>% withSpinner(color = "#6C7B8B")
+             navbarMenu(
+               title = "Distribuciones",
+               tabPanel("Histogramas voto por región",
+                        plotOutput("distr_hist_votos",
+                                   height = "800px") %>% withSpinner(color = "#6C7B8B")
+               ),
+               tabPanel("Violines voto por departamento",
+                        plotOutput("distr_viol_votos",
+                                   height = "800px") %>% withSpinner(color = "#6C7B8B")
+               ),
+               tabPanel("Histogramas categoría por región",
+                        plotOutput("distr_hist_cat",
+                                   height = "800px") %>% withSpinner(color = "#6C7B8B")
+               ),
+               tabPanel("Violines categoría por departamento",
+                        plotOutput("distr_viol_cat",
+                                   height = "800px") %>% withSpinner(color = "#6C7B8B")
+               )
              )
            )
     )
