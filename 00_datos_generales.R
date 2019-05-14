@@ -33,7 +33,31 @@ geofacet_disp_votos_cat_reg <- function(datos_graf,titulo,color){
     theme_minimal() + 
     labs(title = titulo, 
          caption = "Geofacet de @fazepher con datos oficiales franceses",
-         x = "% población comunal",
+         x = "% poblacion comunal",
+         y = "% votos brutos en escala logit") + 
+    theme(legend.position = "none", 
+          plot.title = element_text(margin = margin(5,0,8,0), size = 15, hjust = 0.5),
+          axis.text.x = element_text(margin = margin(3,0,1,0), size = 8),
+          axis.text.y = element_text(margin = margin(0,1,0,3), size = 8),
+          axis.title.x = element_text(size = 10),
+          axis.title.y = element_text(size = 10),
+          strip.text.x = element_text(size = 10, margin = margin(2,0,1,0)))
+  return(graf)
+  
+}
+
+geofacet_smooth_votos_cat_dpto <- function(datos_graf,titulo,color){
+  
+  graf <- ggplot(datos_graf, aes(x=Pct,y=PCT_VOTOS_BR)) + 
+    geom_smooth(method = "lm", color= color, size = rel(1)) + 
+    geom_smooth(aes(group = COD_DPTO), method = "lm", se = FALSE, color=color, size = rel(0.65), alpha = 0.8) + 
+    facet_geo(~COD_REG, grid = fr_anc_reg_metr, label = "name", scales = "free") + 
+    scale_y_continuous(trans = "logit") + 
+    #scale_alpha_continuous(range = c(0.4,1)) + 
+    theme_minimal() + 
+    labs(title = titulo, 
+         caption = "Geofacet de @fazepher con datos oficiales franceses",
+         x = "% poblacion comunal",
          y = "% votos brutos en escala logit") + 
     theme(legend.position = "none", 
           plot.title = element_text(margin = margin(5,0,8,0), size = 15, hjust = 0.5),

@@ -44,28 +44,32 @@ ui <- fluidPage(
     column(3, img(src="banda_roja.png", height="100%", width="100%"))
   ),
   
-  # Pestañas generales
-  navbarPage(
-    title = "Analizar por:",
-    # Paneles por elección
-    navbarMenu(
-      title = "Elección",
-      tabPanel(
-        title = "Diagramas de dispersión",
-        fluidRow(
-          column(2,
-                 selectInput("elec", "Elección", c("Presidenciales 2007","Legislativas 2007",
-                                                   "Presidenciales 2012","Legislativas 2012")),
-                 selectInput("familia", "Familia política", paleta_tesis_fn$FAMILIA),
-                 selectInput("var", "Variable", tabla_variables$Variable),
-                 uiOutput("cat"),
-                 align = "left"),
-          column(10,
-                 plotOutput("graf_disper",
-                            height = "800px") %>% withSpinner(color = "#6C7B8B"),
-                 align = "center")
-        )
-      )
+  # Opciones de gráficos
+  fluidRow(
+    column(2,
+           selectInput("elec", "Elección", c("Presidenciales 2007","Legislativas 2007",
+                                             "Presidenciales 2012","Legislativas 2012")),
+           selectInput("familia", "Familia política", paleta_tesis_fn$FAMILIA),
+           selectInput("var", "Variable", tabla_variables$Variable),
+           uiOutput("cat"),
+           sliderInput("pob_min","Población mínima",0,1000,0,50)
+    ),
+    column(10,
+           # Pestañas generales
+           navbarPage(
+             title = "Mostrar",
+             # Paneles por elección
+             tabPanel(
+               title = "Diagramas de dispersión",
+               plotOutput("graf_disper",
+                          height = "800px") %>% withSpinner(color = "#6C7B8B")
+             ),
+             tabPanel(
+               title = "Tendencias ingenuas",
+               plotOutput("graf_smooth",
+                          height = "800px") %>% withSpinner(color = "#6C7B8B")
+             )
+           )
     )
   )
 )
