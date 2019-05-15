@@ -7,26 +7,25 @@
 ############################################################################################################
 #################################################### AED ###################################################
 ############################################################################################################
-################################################# APLICACIÓN ###############################################
+############################################ INTERFAZ APLICACION ###########################################
 ############################################################################################################
 
+#### Preambulo ####
 
-#### Preámbulo ####
 
 library(shiny)
+library(shinythemes)
+library(shinyWidgets)
+library(flexdashboard)
+library(shinycssloaders)
 library(dplyr)
 library(ggplot2)
 library(readr)
 library(stringr)
 library(magrittr)
-library(shinyWidgets)
-library(flexdashboard)
-library(shinycssloaders)
 library(geofacet)
-library(shinythemes)
-library(scales)
 
-#### Módulos adicionales ####
+#### Modulos adicionales ####
 
 source("00_datos_generales.R")
 
@@ -39,34 +38,35 @@ ui <- fluidPage(
   # Encabezado 
   fluidRow(
     column(3, img(src="banda_azul.png", height="100%", width="100%")),
-    column(6, h1("Análisis exploratorio de datos franceses", 
+    column(6, h1("Analisis exploratorio de datos franceses", 
                  style = "font-family: Times New Roman"), 
            align = "center"),
     column(3, img(src="banda_roja.png", height="100%", width="100%"))
   ),
   
-  # Opciones de gráficos
+  # Opciones de graficos
   fluidRow(
     column(2,
            h3("Seleccionar filtros"),
-           selectInput("elec", "Elección", c("Presidenciales 2007","Legislativas 2007",
-                                             "Presidenciales 2012","Legislativas 2012")),
-           selectInput("familia", "Familia política", paleta_tesis_fn$FAMILIA),
+           selectInput("elec", "Eleccion", 
+                       c("Presidenciales 2007","Legislativas 2007", "Presidenciales 2012","Legislativas 2012"),
+                       "Presidenciales 2012"),
+           selectInput("familia", "Familia politica", paleta_tesis_fn$FAMILIA),
            selectInput("var", "Variable", tabla_variables$Variable),
            uiOutput("cat"),
-           sliderInput("pob_min","Población mínima",0,1000,0,50)
+           sliderInput("pob_min","Poblacion minima",0,1000,0,50)
     ),
     column(10,
-           # Pestañas generales
+           # Pestanas generales
            navbarPage(
              title = "Mostrar",
-             # Paneles por elección
+             # Paneles por eleccion
              navbarMenu(
-               title = "Asociaciones",
-               tabPanel(
-                 title = "Diagramas de dispersión",
-                 plotOutput("graf_disper",
-                            height = "800px") %>% withSpinner(color = "#6C7B8B")
+             title = "Asociaciones",
+             tabPanel(
+               title = "Diagramas de dispersion",
+               plotOutput("graf_disper",
+                          height = "800px") %>% withSpinner(color = "#6C7B8B")
                ),
                tabPanel(
                  title = "Correlaciones lineales",
@@ -81,21 +81,21 @@ ui <- fluidPage(
              ),
              navbarMenu(
                title = "Distribuciones",
-               tabPanel("Histogramas voto por región",
-                        plotOutput("distr_hist_votos",
-                                   height = "800px") %>% withSpinner(color = "#6C7B8B")
-               ),
-               tabPanel("Violines voto por departamento",
-                        plotOutput("distr_viol_votos",
-                                   height = "800px") %>% withSpinner(color = "#6C7B8B")
-               ),
-               tabPanel("Histogramas categoría por región",
-                        plotOutput("distr_hist_cat",
-                                   height = "800px") %>% withSpinner(color = "#6C7B8B")
-               ),
-               tabPanel("Violines categoría por departamento",
-                        plotOutput("distr_viol_cat",
-                                   height = "800px") %>% withSpinner(color = "#6C7B8B")
+               tabPanel("Histogramas voto por region",
+                      plotOutput("distr_hist_votos",
+                                 height = "800px") %>% withSpinner(color = "#6C7B8B")
+             ),
+             tabPanel("Violines voto por departamento",
+                      plotOutput("distr_viol_votos",
+                                 height = "800px") %>% withSpinner(color = "#6C7B8B")
+             ),
+             tabPanel("Histogramas categoria por region",
+                      plotOutput("distr_hist_cat",
+                                 height = "800px") %>% withSpinner(color = "#6C7B8B")
+             ),
+             tabPanel("Violines categoria por departamento",
+                      plotOutput("distr_viol_cat",
+                                 height = "800px") %>% withSpinner(color = "#6C7B8B")
                )
              )
            )
