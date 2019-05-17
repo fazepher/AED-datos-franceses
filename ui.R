@@ -71,7 +71,8 @@ ui <- fluidPage(
                tabPanel(
                  title = "Correlaciones lineales por departamento",
                  plotOutput("graf_corr",
-                            height = "800px") %>% withSpinner(color = "#6C7B8B")
+                            height = "800px") %>% withSpinner(color = "#6C7B8B"),
+                 DT::dataTableOutput("tabla_corr") %>% withSpinner(color = "#6C7B8B")
                ),
                tabPanel(
                  title = "Tendencias ingenuas",

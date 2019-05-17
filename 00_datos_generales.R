@@ -286,20 +286,30 @@ geofacet_smooth_votos_cat_dpto <- function(datos_graf,titulo,tit_x,color){
 
 }
 
+
+genera_datos_corr <- function(datos_graf){
+  datos_graf %>%
+    filter(PCT_VOTOS_BR > 0) %>%
+    group_by(NOM_REG,COD_REG,NOM_DPTO,COD_DPTO) %>%
+    summarise(Comunas = n(),
+              Med_Voto = median(PCT_VOTOS_BR),
+              Med_Pct = median(Pct),
+              Corr = cor(Pct,logit(PCT_VOTOS_BR)),
+              p = cor.test(Pct,logit(PCT_VOTOS_BR)) %>% extract2("p.value")) %>%
+    mutate_if(is.numeric,list(~round(.,3))) %>% 
+    ungroup %>%
+    mutate(COD_DPTO = reorder(COD_DPTO,Corr))
+}
+
 geofacet_corr_votos_cat_dpto <- function(datos_graf,titulo,tit_x,tit_y,color){
 
   graf <- datos_graf %>%
-    filter(PCT_VOTOS_BR > 0) %>%
-    group_by(COD_REG,COD_DPTO) %>%
-    summarise(Corr = cor(Pct,logit(PCT_VOTOS_BR)),
-              p = cor.test(Pct,logit(PCT_VOTOS_BR)) %>% extract2("p.value") %>% multiply_by(-1) %>% add(1)) %>%
-    ungroup %>%
-    mutate(COD_DPTO = reorder(COD_DPTO,Corr)) %>%
     ggplot(aes(x = COD_DPTO, y = Corr, alpha = p)) +
     geom_hline(yintercept = 0, color = color, size = rel(0.5)) +
     geom_col(fill = color, width = 0.5) +
     facet_geo(~COD_REG, grid = fr_anc_reg_metr, label = "name", scales = "free_x") +
     scale_y_continuous(limits = c(-1,1)) +
+    scale_alpha_continuous(trans = "reverse") + 
     theme_minimal() +
     labs(title = titulo,
          caption = "Geofacet de @fazepher con datos oficiales franceses",

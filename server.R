@@ -114,14 +114,38 @@ server <- function(input,output){
                                   color = color())
   })
 
+  datos_corr <- reactive({
+    datos_graf() %>% 
+      genera_datos_corr
+  })
+  
   output$graf_corr <- renderPlot({
-    geofacet_corr_votos_cat_dpto(datos_graf(),
-                                   paste("Correlación", etiqueta_cat(),"y",input$familia,"en las",input$elec,sep=" "),
+     geofacet_corr_votos_cat_dpto(datos_corr(),
+                                  paste("Correlación", etiqueta_cat(),"y",input$familia,"en las",input$elec,sep=" "),
                                    "Código INSEE de Departamento",
                                    "Coeficiente de correlación",
                                    color = color())
   })
 
+  output$tabla_corr <- DT::renderDataTable({
+    datos_corr() %>% 
+      select(-COD_REG) 
+  },
+  rownames = FALSE,
+  colnames = c("Región","Departamento","Código INSEE de Departamento","Núm. Comunas",
+               paste("Mediana %",c(input$familia,etiqueta_cat())),
+               "Correlación","Valor p Corr. 0"),
+  filter = "top",
+  options = list(
+    lengthMenu = 2:8,
+    pageLength = 5,
+    dom = "ltp",
+    language = list(
+      url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json'
+    )
+  )
+  )
+  
   output$graf_smooth <- renderPlot({
     geofacet_smooth_votos_cat_dpto(datos_graf(),
                                      paste(etiqueta_cat(),"vs",input$familia,"en las",input$elec,sep=" "),
