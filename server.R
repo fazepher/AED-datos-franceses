@@ -58,7 +58,8 @@ server <- function(input,output){
   datos_electorales <- reactive({
     filter(datos_electorales_completos, 
            ELECCION == input$elec, 
-           FAMILIA == input$familia)
+           FAMILIA == input$familia) %>% 
+      mutate(PCT_VOTOS_BR = (VOT_CANDIDATO + 0.5)/(INSCRITOS + 1))
   })
   
   output$tabla_votos_nal <- renderTable({
@@ -88,8 +89,7 @@ server <- function(input,output){
   })
   
   output$tabla_cat_nal <- renderTable({
-    datos_graf_solo_insee() %T>%
-      glimpse() %>% 
+    datos_graf_solo_insee() %>% 
       summarise_at("Pct",
                    list(Mediana = ~ median(.),
                         Media = ~ mean(.),
@@ -343,8 +343,20 @@ server <- function(input,output){
   )
   
   # Tendencias ingenuas
-  output$graf_smooth <- renderPlot({
+  output$graf_smooth_loess <- renderPlot({
     geofacet_smooth_votos_cat_dpto(datos_graf(),
+                                   "loess",
+                                   paste(etiqueta_cat(),"vs",input$familia,"en las",input$elec,sep=" "),
+                                   if_else(input$var %in% c("Escolaridad","Empleo"),
+                                           "% población correspondiente",
+                                           "% población comunal"),
+                                   color = color(),
+                                   span = input$span)
+  })
+  
+  output$graf_smooth_lm <- renderPlot({
+    geofacet_smooth_votos_cat_dpto(datos_graf(),
+                                   "lm",
                                    paste(etiqueta_cat(),"vs",input$familia,"en las",input$elec,sep=" "),
                                    if_else(input$var %in% c("Escolaridad","Empleo"),
                                            "% población correspondiente",

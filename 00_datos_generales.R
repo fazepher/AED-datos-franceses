@@ -59,11 +59,11 @@ geofacet_disp_votos_cat_reg <- function(datos,titulo,tit_x,color){
   
 }
 
-geofacet_smooth_votos_cat_dpto <- function(datos,titulo,tit_x,color){
+geofacet_smooth_votos_cat_dpto <- function(datos,met,titulo,tit_x,color,...){
   
   graf <- ggplot(datos, aes(x=Pct,y=PCT_VOTOS_BR)) +
-    geom_smooth(method = "lm", color= color, size = rel(1)) +
-    geom_smooth(aes(group = COD_DPTO), method = "lm", se = FALSE, color=color, size = rel(0.65), alpha = 0.8) +
+    geom_smooth(method = met, color= color, size = rel(1),...) +
+    geom_smooth(aes(group = COD_DPTO), method = met, se = FALSE, color=color, size = rel(0.65), alpha = 0.8,...) +
     facet_geo(~COD_REG, grid = fr_anc_reg_metr, label = "name") +
     scale_y_continuous(trans = "logit") +
     labs(title = titulo,

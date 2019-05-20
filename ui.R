@@ -62,9 +62,11 @@ ui <- fluidPage(
            h4("% de población"),
            selectInput("var", "Variable", tabla_variables$Variable),
            uiOutput("cat"),
-           sliderInput("pob_min","Población mínima",0,1000,0,50),
            h5("Estadísticos descriptivos nacionales", align = "center"),
-           tableOutput("tabla_cat_nal")
+           tableOutput("tabla_cat_nal"),
+           hr(),
+           sliderInput("pob_min","Población mínima",0,1000,0,50),
+           sliderInput("span","Suavización LOESS",0,1,0.75,0.05)
     ),
     column(10,
            # Pestanas generales
@@ -95,8 +97,20 @@ ui <- fluidPage(
                ),
                tabPanel(
                  title = "Tendencias ingenuas",
-                 plotOutput("graf_smooth",
-                            height = "1000px") %>% withSpinner(color = "#6C7B8B")
+                 h3("Ajustes geom_smooth() voto-categoría poblacional", align = "center"),
+                 tabsetPanel(
+                   tabPanel(
+                     title = "Ajuste LOESS",
+                     plotOutput("graf_smooth_loess",
+                                height = "1000px") %>% withSpinner(color = "#6C7B8B")
+                     
+                   ),
+                   tabPanel(
+                     title = "Ajuste lineal",
+                     plotOutput("graf_smooth_lm",
+                                height = "1000px") %>% withSpinner(color = "#6C7B8B")
+                   )
+                 )
                )
              ),
              navbarMenu(
