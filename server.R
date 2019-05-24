@@ -58,7 +58,8 @@ server <- function(input,output){
   datos_electorales <- reactive({
     filter(datos_electorales_completos, 
            ELECCION == input$elec, 
-           FAMILIA == input$familia) %>% 
+           FAMILIA == input$familia,
+           CODGEO %in% if(input$muestra){Muestra$CODGEO}else{COMUNAS_2007$CODGEO}) %>% 
       mutate(PCT_VOTOS_BR = (VOT_CANDIDATO + 0.5)/(INSCRITOS + 1))
   })
   
@@ -78,7 +79,8 @@ server <- function(input,output){
   
   datos_graf_solo_insee <- reactive({
     datos_censales %>% 
-      filter(AAAA == aaaa()) %>% 
+      filter(AAAA == aaaa(),
+             CODGEO %in% if(input$muestra){Muestra$CODGEO}else{COMUNAS_2007$CODGEO}) %>% 
       inner_join(COMUNAS_2007) %>% 
       filter(COD_REG %in% fr_anc_reg_metr$code) %>% 
       filter(Pob >= input$pob_min) %>% 

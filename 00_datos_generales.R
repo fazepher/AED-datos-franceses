@@ -15,6 +15,9 @@
 COMUNAS_2007 <- read_csv("datos/comunas_07.csv", 
                          locale = locale(encoding = "latin1"))
 
+Muestra <- read_csv("datos/Muestra.csv", 
+                    locale = locale(encoding = "latin1"))
+
 fr_anc_reg_metr <- read_csv(file = "datos/fr_anc_reg_metr.csv",
                        locale = locale(encoding = "latin1")) 
 

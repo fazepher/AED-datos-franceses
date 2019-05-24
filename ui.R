@@ -56,6 +56,7 @@ ui <- fluidPage(
                        c("Presidenciales 2007","Legislativas 2007", "Presidenciales 2012","Legislativas 2012"),
                        "Presidenciales 2012"),
            selectInput("familia", "Familia política", paleta_tesis_fn$FAMILIA),
+           switchInput("muestra",value=TRUE,onLabel="Solo Muestra",offLabel = "Todas"),
            h5("Estadísticos descriptivos nacionales", align = "center"),
            tableOutput("tabla_votos_nal"),
            hr(),
